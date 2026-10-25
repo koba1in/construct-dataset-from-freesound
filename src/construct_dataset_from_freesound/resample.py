@@ -25,6 +25,8 @@ def resampler(waveform, sample_rate, resample_rate):
 
 def resample_example(example, audio_column, audio_id_column, resample_rate):
     waveform, sample_rate = decode_audio(example[audio_column])
+    if waveform.ndim == 2:
+        waveform = waveform.mean(axis=1)
     waveform = resampler(waveform, sample_rate, resample_rate)
     return {"waveform": waveform, audio_id_column: example[audio_id_column]}
 
