@@ -8,10 +8,6 @@ from construct_dataset_from_freesound.metadata import get_license_class
 def main():
     load_dotenv()
 
-    ACCESS_TOKEN = os.getenv("HF_TOKEN")
-    if not ACCESS_TOKEN:
-        raise RuntimeError("環境変数 HF_TOKEN が設定されていません")
-
     parser = argparse.ArgumentParser(
         prog="freesound-downloader",
     )
@@ -25,6 +21,10 @@ def main():
     path = Path(args.path)
     licenses = args.license
 
+    ACCESS_TOKEN = os.getenv("HF_TOKEN")
+    if not ACCESS_TOKEN:
+        raise RuntimeError("環境変数 HF_TOKEN が設定されていません")
+    
     repo_id = "benjamin-paine/freesound-laion-640k"
     license_column = "license"
     license_kinds = get_license_class(repo_id, license_column, ACCESS_TOKEN)
@@ -34,7 +34,6 @@ def main():
             print(f"choose license from {license_keys}")
             exit()
     licenses = [license_kinds[i] for i in licenses]
-
 
     audio_column = "audio"
     audio_id_column = "freesound_id"
