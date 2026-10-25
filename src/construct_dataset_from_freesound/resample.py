@@ -16,22 +16,22 @@ def resampler(waveform, sample_rate, resample_rate):
     up, down = resample_rate // g, sample_rate // g
     return resample_poly(waveform, up, down, axis=0)
 
-def resample_example(example, audio="audio", resample_rate=16000):
-    samples = example[audio].get_all_samples()
+def resample_example(example, audio_column, audio_id_column, resample_rate):
+    samples = example[audio_column].get_all_samples()
     waveform = samples.data.t().numpy()
     sample_rate = samples.sample_rate
     waveform = resampler(waveform, sample_rate, resample_rate)
-    return {"waveform": waveform, "freesound_id": example["freesound_id"]}
+    return {"waveform": waveform, audio_id_column: example[audio_id_column]}
 
-def safe_resample_example(example, audio="audio", resample_rate=16000):
+def safe_resample_example(example, audio_column, audio_id_column, resample_rate):
     try:
-        result = resample_example(example, audio, resample_rate)
+        result = resample_example(example, audio_column, resample_rate)
         result["_skip"] = False
         return result
     except Exception as e:
         logging.warning(
             f"Skipping audio: "
-            f"id={example.get('freesound_id')}, "
+            f"id={example.get(audio_id_column)}, "
             f"title={example.get('title')}, "
             f"error={e}"
         )

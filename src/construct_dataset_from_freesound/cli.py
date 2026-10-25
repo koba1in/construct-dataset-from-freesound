@@ -7,7 +7,8 @@ from construct_dataset_from_freesound.metadata import get_license_class
 
 def main():
     load_dotenv()
-    ACCESS_TOKEN = os.environ["HF_TOKEN"]
+
+    ACCESS_TOKEN = os.getenv("HF_TOKEN")
     if not ACCESS_TOKEN:
         raise RuntimeError("環境変数 HF_TOKEN が設定されていません")
 

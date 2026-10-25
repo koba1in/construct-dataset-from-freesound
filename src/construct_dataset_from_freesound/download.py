@@ -11,13 +11,13 @@ def download(repo_id, split, license_column, licenses, audio_column, audio_id_co
                     streaming=True,
                     token=ACCESS_TOKEN
                     ).filter(lambda x: x[license_column] in licenses
-                            ).map(lambda x: safe_resample_example(x, audio_column, resample_rate)
+                            ).map(lambda x: safe_resample_example(x, audio_column, audio_id_column, resample_rate)
                                     ).filter(lambda x: not x["_skip"]
                                             ).remove_columns(["_skip"]
                                                             ).select_columns(columns)
 
     for example in dataset:
-            file_path = download_path / f"{example['freesound_id']}.flac"
+            file_path = download_path / f"{example[audio_id_column]}.flac"
             if file_path.exists():
                 continue
             sf.write(file_path, example["waveform"], resample_rate, subtype="PCM_16", )
