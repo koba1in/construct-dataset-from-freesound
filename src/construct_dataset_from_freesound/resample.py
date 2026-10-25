@@ -25,7 +25,7 @@ def resample_example(example, audio_column, audio_id_column, resample_rate):
 
 def safe_resample_example(example, audio_column, audio_id_column, resample_rate):
     try:
-        result = resample_example(example, audio_column, resample_rate)
+        result = resample_example(example, audio_column, audio_id_column, resample_rate)
         result["_skip"] = False
         return result
     except Exception as e:
