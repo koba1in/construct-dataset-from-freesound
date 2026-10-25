@@ -1,0 +1,24 @@
+[project]
+name = "construct-dataset-from-freesound"
+version = "0.1.0"
+description = "Construct data from freesound"
+readme = "README.md"
+authors = [
+    { name = "Kobayashi Rintaro", email = "" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "soundfile",
+    "scipy",
+    "datasets",
+    "torchcodec",
+    "torch",
+]
+
+[project.scripts]
+construct-dataset-from-freesound = "construct_dataset_from_freesound:main"
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
