@@ -1,4 +1,5 @@
 import argparse
+from pyprojroot import here
 from dotenv import load_dotenv
 import os
 from pathlib import Path
@@ -6,7 +7,8 @@ from construct_dataset_from_freesound.download import download
 from construct_dataset_from_freesound.metadata import get_license_class
 
 def main():
-    load_dotenv()
+    root = here()
+    load_dotenv(root/".env")
 
     parser = argparse.ArgumentParser(
         prog="freesound-downloader",
