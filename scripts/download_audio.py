@@ -1,6 +1,6 @@
 import sys
 import os
-from construct_dataset_from_freesound.resample import resample_example
+from construct_dataset_from_freesound.resample import safe_resample_example
 from construct_dataset_from_freesound.info import get_license_class
 from datasets import load_dataset
 import soundfile as sf
@@ -31,16 +31,13 @@ dataset = load_dataset(repo_id,
                   streaming=True,
                   token=ACCESS_TOKEN
                   ).filter(lambda x: x["license"] in licenses
-                           ).map(lambda x: resample_example(x, "audio", resample_rate)
-                                ).select_columns(columns
-                                                 )
+                           ).map(lambda x: safe_resample_example(x, "audio", resample_rate)
+                                ).filter(lambda x: not x["_skip"]
+                                         ).remove_columns(["_skip"]
+                                                          ).select_columns(columns)
 
 for example in dataset:
         file_path = download_path / f"{example['freesound_id']}.flac"
         if file_path.exists():
             continue
-<<<<<<< HEAD
         sf.write(file_path, example["waveform"], resample_rate, subtype="PCM_16", )
-=======
-        sf.write(download_path/(example["freesound_id"]+".flac"), example["waveform"], resample_rate, subtype="PCM_16", )
->>>>>>> 7359f0018a83a9de74db49a10723660991e9228d

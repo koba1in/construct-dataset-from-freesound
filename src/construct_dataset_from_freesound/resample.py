@@ -21,3 +21,19 @@ def resample_example(example, audio="audio", resample_rate=16000):
     sample_rate = samples.sample_rate
     waveform = resampler(waveform, sample_rate, resample_rate)
     return {"waveform": waveform, "freesound_id": example["freesound_id"]}
+
+def safe_resample_example(example, audio="audio", resample_rate=16000):
+    try:
+        result = resample_example(example, audio, resample_rate)
+        result["_skip"] = False
+        return result
+    except Exception as e:
+        print(
+            f"Skipping audio: "
+            f"id={example.get("freesound_id")}, "
+            f"title={example.get("title")}, "
+            f"error={e}"
+        )
+        result = dict(example)
+        result["_skip"] = True
+        return result
