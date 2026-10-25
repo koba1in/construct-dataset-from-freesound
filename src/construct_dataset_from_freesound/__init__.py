@@ -1,2 +1,3 @@
 def main() -> None:
-    print("Hello from construct-dataset-from-freesound!")
+    from construct_dataset_from_freesound import cli
+    cli.main()
