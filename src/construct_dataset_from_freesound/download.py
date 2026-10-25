@@ -1,9 +1,11 @@
 from construct_dataset_from_freesound.resample import safe_resample_example
 from datasets import load_dataset
 import soundfile as sf
+import os
 
 def download(repo_id, split, license_column, licenses, audio_column, audio_id_column, resample_rate, download_path, ACCESS_TOKEN):
 
+    os.environ["HF_DATASETS_AUDIO_BACKEND"] = "soundfile"
     columns = ["waveform", audio_id_column]
 
     dataset = load_dataset(repo_id,
