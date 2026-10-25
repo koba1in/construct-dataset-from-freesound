@@ -39,4 +39,8 @@ for example in dataset:
         file_path = download_path / f"{example['freesound_id']}.flac"
         if file_path.exists():
             continue
+<<<<<<< HEAD
         sf.write(file_path, example["waveform"], resample_rate, subtype="PCM_16", )
+=======
+        sf.write(download_path/(example["freesound_id"]+".flac"), example["waveform"], resample_rate, subtype="PCM_16", )
+>>>>>>> 7359f0018a83a9de74db49a10723660991e9228d

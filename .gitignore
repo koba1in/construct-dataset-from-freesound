@@ -8,5 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+<<<<<<< HEAD
 
 *.flac
+=======
+>>>>>>> 7359f0018a83a9de74db49a10723660991e9228d
