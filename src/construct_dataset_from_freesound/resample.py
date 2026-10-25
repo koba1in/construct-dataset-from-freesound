@@ -1,5 +1,7 @@
 from scipy.signal import resample_poly
 import logging
+import io
+import soundfile as sf
 
 def gcd(x, y):
     while y:
@@ -11,15 +13,18 @@ def calc_factor(sample_rate, resample_rate):
     up, down = resample_rate // g, sample_rate // g
     return [up, down]
 
+def decode_audio(audio):
+    if audio["bytes"] is not None:
+        return sf.read(io.BytesIO(audio["bytes"]), dtype="float32")
+    return sf.read(audio["path"], dtype="float32")
+
 def resampler(waveform, sample_rate, resample_rate):
     g = gcd(sample_rate, resample_rate)
     up, down = resample_rate // g, sample_rate // g
     return resample_poly(waveform, up, down, axis=0)
 
 def resample_example(example, audio_column, audio_id_column, resample_rate):
-    samples = example[audio_column].get_all_samples()
-    waveform = samples.data.t().numpy()
-    sample_rate = samples.sample_rate
+    waveform, sample_rate = decode_audio(example[audio_column])
     waveform = resampler(waveform, sample_rate, resample_rate)
     return {"waveform": waveform, audio_id_column: example[audio_id_column]}
 
