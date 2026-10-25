@@ -1,4 +1,5 @@
 from scipy.signal import resample_poly
+import logging
 
 def gcd(x, y):
     while y:
@@ -28,10 +29,10 @@ def safe_resample_example(example, audio="audio", resample_rate=16000):
         result["_skip"] = False
         return result
     except Exception as e:
-        print(
+        logging.warning(
             f"Skipping audio: "
-            f"id={example.get("freesound_id")}, "
-            f"title={example.get("title")}, "
+            f"id={example.get('freesound_id')}, "
+            f"title={example.get('title')}, "
             f"error={e}"
         )
         result = dict(example)

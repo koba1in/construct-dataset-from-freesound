@@ -2,7 +2,7 @@ from construct_dataset_from_freesound.resample import safe_resample_example
 from datasets import load_dataset
 import soundfile as sf
 
-def download(repo_id, split, licenses, audio_column, audio_id_column, resample_rate, download_path, ACCESS_TOKEN):
+def download(repo_id, split, license_column, licenses, audio_column, audio_id_column, resample_rate, download_path, ACCESS_TOKEN):
 
     columns = ["waveform", audio_id_column]
 
@@ -10,7 +10,7 @@ def download(repo_id, split, licenses, audio_column, audio_id_column, resample_r
                     split=split,
                     streaming=True,
                     token=ACCESS_TOKEN
-                    ).filter(lambda x: x["license"] in licenses
+                    ).filter(lambda x: x[license_column] in licenses
                             ).map(lambda x: safe_resample_example(x, audio_column, resample_rate)
                                     ).filter(lambda x: not x["_skip"]
                                             ).remove_columns(["_skip"]

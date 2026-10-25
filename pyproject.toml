@@ -13,6 +13,7 @@ dependencies = [
     "datasets",
     "torchcodec",
     "torch",
+    "dotenv>=0.9.9",
 ]
 
 [project.scripts]
